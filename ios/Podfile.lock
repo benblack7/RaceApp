@@ -325,6 +325,8 @@ PODS:
   - React-jsinspector (0.69.7)
   - React-logger (0.69.7):
     - glog
+  - react-native-geolocation (3.0.4):
+    - React-Core
   - react-native-safe-area-context (4.3.4):
     - RCT-Folly
     - RCTRequired
@@ -496,6 +498,7 @@ DEPENDENCIES:
   - React-jsiexecutor (from `../node_modules/react-native/ReactCommon/jsiexecutor`)
   - React-jsinspector (from `../node_modules/react-native/ReactCommon/jsinspector`)
   - React-logger (from `../node_modules/react-native/ReactCommon/logger`)
+  - "react-native-geolocation (from `../node_modules/@react-native-community/geolocation`)"
   - react-native-safe-area-context (from `../node_modules/react-native-safe-area-context`)
   - React-perflogger (from `../node_modules/react-native/ReactCommon/reactperflogger`)
   - React-RCTActionSheet (from `../node_modules/react-native/Libraries/ActionSheetIOS`)
@@ -599,6 +602,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native/ReactCommon/jsinspector"
   React-logger:
     :path: "../node_modules/react-native/ReactCommon/logger"
+  react-native-geolocation:
+    :path: "../node_modules/@react-native-community/geolocation"
   react-native-safe-area-context:
     :path: "../node_modules/react-native-safe-area-context"
   React-perflogger:
@@ -684,6 +689,7 @@ SPEC CHECKSUMS:
   React-jsiexecutor: a73bec0218ba959fc92f811b581ad6c2270c6b6f
   React-jsinspector: 8134ee22182b8dd98dc0973db6266c398103ce6c
   React-logger: 1e7ac909607ee65fd5c4d8bea8c6e644f66b8843
+  react-native-geolocation: 3ed60c3d7f613c36b777b9fd0bc3453214e1b0d5
   react-native-safe-area-context: dfe5aa13bee37a0c7e8059d14f72ffc076d120e9
   React-perflogger: 8e832d4e21fdfa613033c76d58d7e617341e804b
   React-RCTActionSheet: 9ca778182a9523991bff6381045885b6e808bb73

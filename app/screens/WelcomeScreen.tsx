@@ -1,12 +1,13 @@
 import { observer } from "mobx-react-lite"
 import React, { FC } from "react"
-import { Image, ImageStyle, TextStyle, View, ViewStyle } from "react-native"
+import { Image, ImageStyle, TextStyle, View, ViewStyle, TextInput } from "react-native"
 import {
   Text,
 } from "../components"
 import { isRTL } from "../i18n"
 import { colors, spacing } from "../theme"
 import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
+import WatchPosition from '../services/gps/gps';
 
 const welcomeLogo = require("../../assets/images/logo.png")
 const welcomeFace = require("../../assets/images/welcome-face.png")
@@ -15,11 +16,14 @@ const welcomeFace = require("../../assets/images/welcome-face.png")
 export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeScreen(
 ) {
 
+  const [number, onChangeNumber] = React.useState(null);
+
   const $bottomContainerInsets = useSafeAreaInsetsStyle(["bottom"])
 
   return (
     <View style={$container}>
       <View style={$topContainer}>
+      {/* <View style={$topContainer}>
         <Image style={$welcomeLogo} source={welcomeLogo} resizeMode="contain" />
         <Text
           testID="welcome-heading"
@@ -33,10 +37,33 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
 
       <View style={[$bottomContainer, $bottomContainerInsets]}>
         <Text tx="welcomeScreen.postscript" size="md" />
+      </View> */}
+      <Text>
+        Total Distance
+      </Text>
+      <TextInput
+        style={$textinput}
+        onChangeText={onChangeNumber}
+        value={number}
+        placeholder="useless placeholder"
+        keyboardType="numeric"
+      />
+      </View>
+      <View style={[$bottomContainer, $bottomContainerInsets]}>
+        <Text tx="welcomeScreen.postscript" size="md" />
+        <WatchPosition />
       </View>
     </View>
   )
 })
+
+const $textinput: ViewStyle = {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    marginTop: spacing.tiny,
+};
 
 const $container: ViewStyle = {
   flex: 1,
