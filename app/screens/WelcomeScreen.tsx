@@ -1,44 +1,39 @@
 import { observer } from "mobx-react-lite"
 import React, { FC, useState, useEffect } from "react"
 import { Image, ImageStyle, TextStyle, View, ViewStyle, TextInput } from "react-native"
-import {
-  Text,
-} from "../components"
+import { Text } from "../components"
 import { isRTL } from "../i18n"
 import { colors, spacing } from "../theme"
 import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
-import WatchPosition from '../services/gps/gps';
+import WatchPosition from "../services/gps/gps"
 
 const welcomeLogo = require("../../assets/images/logo.png")
 const welcomeFace = require("../../assets/images/welcome-face.png")
 
-
-export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeScreen(
-) {
-
-  const [number, onChangeNumber] = useState(0);
-  const [targetSpeed, setTargetSpeed] = useState(0);
-  const [currentSpeed, setSpeedForColor] = useState(0);
-  const [backgroundSpeedColor, setBackgroundSpeedColor] = useState("");
-  const [speedRecommendation, setSpeedRecommendation] = useState("");
+export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeScreen() {
+  const [number, onChangeNumber] = useState(0)
+  const [targetSpeed, setTargetSpeed] = useState(0)
+  const [currentSpeed, setSpeedForColor] = useState(0)
+  const [backgroundSpeedColor, setBackgroundSpeedColor] = useState("")
+  const [speedRecommendation, setSpeedRecommendation] = useState("")
 
   console.log("Current Average Speed: ", currentSpeed)
   console.log("Top Target Speed: ", targetSpeed)
 
   useEffect(() => {
     function setSpeedColor() {
-      if (currentSpeed > (targetSpeed * 1.05)) {
+      if (currentSpeed > targetSpeed * 1.05) {
         setBackgroundSpeedColor(colors.palette.warningtime)
         setSpeedRecommendation("Going too fast!")
-      } else if (currentSpeed < (targetSpeed * .95)) {
+      } else if (currentSpeed < targetSpeed * 0.95) {
         setBackgroundSpeedColor(colors.palette.speedup)
         setSpeedRecommendation("Speed up!")
       } else {
         setBackgroundSpeedColor(colors.palette.goodtime)
         setSpeedRecommendation("Speed is good")
       }
-     }
-     setSpeedColor();
+    }
+    setSpeedColor()
   }, [currentSpeed])
 
   const $bottomContainerInsets = useSafeAreaInsetsStyle(["bottom"])
@@ -46,7 +41,7 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
   return (
     <View style={$container}>
       <View style={$topContainer}>
-      {/* <View style={$topContainer}>
+        {/* <View style={$topContainer}>
         <Image style={$welcomeLogo} source={welcomeLogo} resizeMode="contain" />
         <Text
           testID="welcome-heading"
@@ -61,45 +56,45 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
       <View style={[$bottomContainer, $bottomContainerInsets]}>
         <Text tx="welcomeScreen.postscript" size="md" />
       </View> */}
-      <Text>
-        Total Distance
-      </Text>
-      <TextInput
-        style={$textinput}
-        onChangeText={onChangeNumber}
-        value={number}
-        placeholder="useless placeholder"
-        keyboardType="numeric"
-      />
-      <Text>
-        Target Speed
-      </Text>
-      <TextInput
-        style={$textinput}
-        onChangeText={setTargetSpeed}
-        value={targetSpeed}
-        placeholder="target speed"
-        keyboardType="numeric"
-      />
+        <Text>Total Distance</Text>
+        <TextInput
+          style={$textinput}
+          onChangeText={onChangeNumber}
+          value={number}
+          placeholder="useless placeholder"
+          keyboardType="numeric"
+        />
+        <Text>Target Speed</Text>
+        <TextInput
+          style={$textinput}
+          onChangeText={setTargetSpeed}
+          value={targetSpeed}
+          placeholder="target speed"
+          keyboardType="numeric"
+        />
       </View>
-      <View style={[$bottomContainer, $bottomContainerInsets, {backgroundColor: backgroundSpeedColor}]}>
+      <View
+        style={[
+          $bottomContainer,
+          $bottomContainerInsets,
+          { backgroundColor: backgroundSpeedColor },
+        ]}
+      >
         <Text tx="welcomeScreen.postscript" size="lg" />
-        <Text>
-          {speedRecommendation}
-        </Text>
-        <WatchPosition setSpeedForColor={setSpeedForColor} targetSpeed = {targetSpeed}/>
+        <Text>{speedRecommendation}</Text>
+        <WatchPosition setSpeedForColor={setSpeedForColor} targetSpeed={targetSpeed} />
       </View>
     </View>
   )
 })
 
 const $textinput: ViewStyle = {
-    height: 40,
-    margin: 12,
-    borderWidth: 1,
-    padding: 10,
-    marginTop: spacing.tiny,
-};
+  height: 40,
+  margin: 12,
+  borderWidth: 1,
+  padding: 10,
+  marginTop: spacing.tiny,
+}
 
 const $container: ViewStyle = {
   flex: 1,

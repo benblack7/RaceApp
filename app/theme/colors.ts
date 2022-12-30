@@ -37,6 +37,8 @@ const palette = {
   warningtime: "#FFC300",
   speedup: "#C70039",
 
+  background1: "#293F4A",
+
   overlay20: "rgba(25, 16, 21, 0.2)",
   overlay50: "rgba(25, 16, 21, 0.5)",
 }
@@ -55,7 +57,7 @@ export const colors = {
   /**
    * The default text color in many components.
    */
-  text: palette.neutral800,
+  text: palette.neutral100,
   /**
    * Secondary text information.
    */
@@ -63,7 +65,7 @@ export const colors = {
   /**
    * The default color of the screen background.
    */
-  background: palette.neutral200,
+  background: palette.background1,
   /**
    * The default border color.
    */
