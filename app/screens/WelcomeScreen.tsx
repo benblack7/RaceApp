@@ -1,5 +1,5 @@
 import { observer } from "mobx-react-lite"
-import React, { FC } from "react"
+import React, { FC, useState, useEffect } from "react"
 import { Image, ImageStyle, TextStyle, View, ViewStyle, TextInput } from "react-native"
 import {
   Text,
@@ -16,7 +16,30 @@ const welcomeFace = require("../../assets/images/welcome-face.png")
 export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeScreen(
 ) {
 
-  const [number, onChangeNumber] = React.useState(null);
+  const [number, onChangeNumber] = useState(0);
+  const [targetSpeed, setTargetSpeed] = useState(0);
+  const [currentSpeed, setSpeedForColor] = useState(0);
+  const [backgroundSpeedColor, setBackgroundSpeedColor] = useState("");
+  const [speedRecommendation, setSpeedRecommendation] = useState("");
+
+  console.log("Current Average Speed: ", currentSpeed)
+  console.log("Top Target Speed: ", targetSpeed)
+
+  useEffect(() => {
+    function setSpeedColor() {
+      if (currentSpeed > (targetSpeed * 1.05)) {
+        setBackgroundSpeedColor(colors.palette.warningtime)
+        setSpeedRecommendation("Going too fast!")
+      } else if (currentSpeed < (targetSpeed * .95)) {
+        setBackgroundSpeedColor(colors.palette.speedup)
+        setSpeedRecommendation("Speed up!")
+      } else {
+        setBackgroundSpeedColor(colors.palette.goodtime)
+        setSpeedRecommendation("Speed is good")
+      }
+     }
+     setSpeedColor();
+  }, [currentSpeed])
 
   const $bottomContainerInsets = useSafeAreaInsetsStyle(["bottom"])
 
@@ -48,10 +71,23 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
         placeholder="useless placeholder"
         keyboardType="numeric"
       />
+      <Text>
+        Target Speed
+      </Text>
+      <TextInput
+        style={$textinput}
+        onChangeText={setTargetSpeed}
+        value={targetSpeed}
+        placeholder="target speed"
+        keyboardType="numeric"
+      />
       </View>
-      <View style={[$bottomContainer, $bottomContainerInsets]}>
-        <Text tx="welcomeScreen.postscript" size="md" />
-        <WatchPosition />
+      <View style={[$bottomContainer, $bottomContainerInsets, {backgroundColor: backgroundSpeedColor}]}>
+        <Text tx="welcomeScreen.postscript" size="lg" />
+        <Text>
+          {speedRecommendation}
+        </Text>
+        <WatchPosition setSpeedForColor={setSpeedForColor} targetSpeed = {targetSpeed}/>
       </View>
     </View>
   )
@@ -82,11 +118,11 @@ const $bottomContainer: ViewStyle = {
   flexShrink: 1,
   flexGrow: 0,
   flexBasis: "43%",
-  backgroundColor: colors.palette.neutral100,
+  //backgroundColor: colors.palette.goodtime,
   borderTopLeftRadius: 16,
   borderTopRightRadius: 16,
   paddingHorizontal: spacing.large,
-  justifyContent: "space-around",
+  justifyContent: "flex-start",
 }
 const $welcomeLogo: ImageStyle = {
   height: 88,

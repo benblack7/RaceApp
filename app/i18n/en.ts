@@ -6,7 +6,7 @@ const en = {
   },
   welcomeScreen: {
     postscript:
-      "Average Speed",
+      "Current Progress",
     readyForLaunch: "Your app, almost ready for launch!",
     exciting: "(ohh, this is exciting!)",
   },
