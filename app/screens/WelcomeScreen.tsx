@@ -6,6 +6,7 @@ import { isRTL } from "../i18n"
 import { colors, spacing } from "../theme"
 import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
 import WatchPosition from "../services/gps/gps"
+import Speedometer from "react-native-speedometer-chart"
 
 const welcomeLogo = require("../../assets/images/logo.png")
 const welcomeFace = require("../../assets/images/welcome-face.png")
@@ -19,6 +20,8 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
 
   console.log("Current Average Speed: ", currentSpeed)
   console.log("Top Target Speed: ", targetSpeed)
+
+  const targetSpeedBuffer = targetSpeed * 1.5
 
   useEffect(() => {
     function setSpeedColor() {
@@ -41,6 +44,16 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
   return (
     <View style={$container}>
       <View style={$topContainer}>
+        <View style={$chartContainer}>
+          <Speedometer
+            value={currentSpeed}
+            totalValue={targetSpeedBuffer}
+            innerColor={colors.palette.background1}
+          />
+          <Text>{speedRecommendation}</Text>
+          <Text style={$mphtext}>{currentSpeed} mph</Text>
+        </View>
+
         {/* <View style={$topContainer}>
         <Image style={$welcomeLogo} source={welcomeLogo} resizeMode="contain" />
         <Text
@@ -56,14 +69,14 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
       <View style={[$bottomContainer, $bottomContainerInsets]}>
         <Text tx="welcomeScreen.postscript" size="md" />
       </View> */}
-        <Text>Total Distance</Text>
+        {/* <Text>Total Distance</Text>
         <TextInput
           style={$textinput}
           onChangeText={onChangeNumber}
           value={number}
           placeholder="useless placeholder"
           keyboardType="numeric"
-        />
+        /> */}
         <Text>Target Speed</Text>
         <TextInput
           style={$textinput}
@@ -72,18 +85,16 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
           placeholder="target speed"
           keyboardType="numeric"
         />
+        <View
+          style={{
+            borderBottomColor: colors.palette.neutral500,
+            borderBottomWidth: 1,
+            opacity: 0.5,
+          }}
+        />
       </View>
-      <View
-        style={[
-          $bottomContainer,
-          $bottomContainerInsets,
-          { backgroundColor: backgroundSpeedColor },
-        ]}
-      >
-        <Text tx="welcomeScreen.postscript" size="lg" />
-        <Text>{speedRecommendation}</Text>
-        <WatchPosition setSpeedForColor={setSpeedForColor} targetSpeed={targetSpeed} />
-      </View>
+      <Text tx="welcomeScreen.postscript" size="lg" />
+      <WatchPosition setSpeedForColor={setSpeedForColor} targetSpeed={targetSpeed} />
     </View>
   )
 })
@@ -94,6 +105,13 @@ const $textinput: ViewStyle = {
   borderWidth: 1,
   padding: 10,
   marginTop: spacing.tiny,
+}
+
+const $mphtext: ViewStyle = {
+  fontSize: 40,
+  margin: 12,
+  padding: 20,
+  marginTop: spacing.large,
 }
 
 const $container: ViewStyle = {
@@ -109,10 +127,18 @@ const $topContainer: ViewStyle = {
   paddingHorizontal: spacing.large,
 }
 
+const $chartContainer: ViewStyle = {
+  flex: 0.3,
+  flexBasis: "30%",
+  justifyContent: "center",
+  alignItems: "center",
+  paddingHorizontal: spacing.large,
+}
+
 const $bottomContainer: ViewStyle = {
   flexShrink: 1,
   flexGrow: 0,
-  flexBasis: "43%",
+  flexBasis: "60%",
   //backgroundColor: colors.palette.goodtime,
   borderTopLeftRadius: 16,
   borderTopRightRadius: 16,
