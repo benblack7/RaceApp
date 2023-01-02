@@ -38,6 +38,7 @@ const palette = {
   speedup: "#C70039",
 
   background1: "#293F4A",
+  background2: "#20323b",
 
   overlay20: "rgba(25, 16, 21, 0.2)",
   overlay50: "rgba(25, 16, 21, 0.5)",

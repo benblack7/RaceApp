@@ -1,12 +1,22 @@
 import { observer } from "mobx-react-lite"
 import React, { FC, useState, useEffect } from "react"
-import { Image, ImageStyle, TextStyle, View, ViewStyle, TextInput } from "react-native"
+import {
+  Image,
+  ImageStyle,
+  TextStyle,
+  View,
+  ViewStyle,
+  TextInput,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native"
 import { Text } from "../components"
 import { isRTL } from "../i18n"
 import { colors, spacing } from "../theme"
 import { useSafeAreaInsetsStyle } from "../utils/useSafeAreaInsetsStyle"
 import WatchPosition from "../services/gps/gps"
 import Speedometer from "react-native-speedometer-chart"
+import { ScrollView } from "react-native-gesture-handler"
 
 const welcomeLogo = require("../../assets/images/logo.png")
 const welcomeFace = require("../../assets/images/welcome-face.png")
@@ -42,60 +52,41 @@ export const WelcomeScreen: FC<WelcomeScreenProps> = observer(function WelcomeSc
   const $bottomContainerInsets = useSafeAreaInsetsStyle(["bottom"])
 
   return (
-    <View style={$container}>
-      <View style={$topContainer}>
-        <View style={$chartContainer}>
-          <Speedometer
-            value={currentSpeed}
-            totalValue={targetSpeedBuffer}
-            innerColor={colors.palette.background1}
-          />
-          <Text>{speedRecommendation}</Text>
-          <Text style={$mphtext}>{currentSpeed} mph</Text>
+    <ScrollView style={$container}>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <View style={$container}>
+          <View style={$topContainer}>
+            <View style={$chartContainer}>
+              <Speedometer
+                value={currentSpeed}
+                totalValue={targetSpeedBuffer}
+                innerColor={colors.palette.background1}
+              />
+              <Text>{speedRecommendation}</Text>
+              <Text style={$mphtext}>{currentSpeed} mph</Text>
+            </View>
+            <Text>Target Speed</Text>
+            <TextInput
+              style={$textinput}
+              onChangeText={setTargetSpeed}
+              value={targetSpeed}
+              placeholder="Enter Target Speed"
+              placeholderTextColor={colors.palette.neutral100}
+              keyboardType="numeric"
+            />
+            <View
+              style={{
+                borderBottomColor: colors.palette.neutral500,
+                borderBottomWidth: 1,
+                opacity: 0.5,
+              }}
+            />
+          </View>
+          <Text tx="welcomeScreen.postscript" size="lg" />
+          <WatchPosition setSpeedForColor={setSpeedForColor} targetSpeed={targetSpeed} />
         </View>
-
-        {/* <View style={$topContainer}>
-        <Image style={$welcomeLogo} source={welcomeLogo} resizeMode="contain" />
-        <Text
-          testID="welcome-heading"
-          style={$welcomeHeading}
-          tx="welcomeScreen.readyForLaunch"
-          preset="heading"
-        />
-        <Text tx="welcomeScreen.exciting" preset="subheading" />
-        <Image style={$welcomeFace} source={welcomeFace} resizeMode="contain" />
-      </View>
-
-      <View style={[$bottomContainer, $bottomContainerInsets]}>
-        <Text tx="welcomeScreen.postscript" size="md" />
-      </View> */}
-        {/* <Text>Total Distance</Text>
-        <TextInput
-          style={$textinput}
-          onChangeText={onChangeNumber}
-          value={number}
-          placeholder="useless placeholder"
-          keyboardType="numeric"
-        /> */}
-        <Text>Target Speed</Text>
-        <TextInput
-          style={$textinput}
-          onChangeText={setTargetSpeed}
-          value={targetSpeed}
-          placeholder="target speed"
-          keyboardType="numeric"
-        />
-        <View
-          style={{
-            borderBottomColor: colors.palette.neutral500,
-            borderBottomWidth: 1,
-            opacity: 0.5,
-          }}
-        />
-      </View>
-      <Text tx="welcomeScreen.postscript" size="lg" />
-      <WatchPosition setSpeedForColor={setSpeedForColor} targetSpeed={targetSpeed} />
-    </View>
+      </TouchableWithoutFeedback>
+    </ScrollView>
   )
 })
 
@@ -105,6 +96,7 @@ const $textinput: ViewStyle = {
   borderWidth: 1,
   padding: 10,
   marginTop: spacing.tiny,
+  color: colors.palette.neutral100,
 }
 
 const $mphtext: ViewStyle = {
@@ -122,7 +114,7 @@ const $container: ViewStyle = {
 const $topContainer: ViewStyle = {
   flexShrink: 1,
   flexGrow: 1,
-  flexBasis: "57%",
+  flexBasis: "17%",
   justifyContent: "center",
   paddingHorizontal: spacing.large,
 }

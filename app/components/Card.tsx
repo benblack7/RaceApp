@@ -268,8 +268,8 @@ const $containerPresets = {
   default: [
     $containerBase,
     {
-      backgroundColor: colors.palette.neutral100,
-      borderColor: colors.palette.neutral300,
+      backgroundColor: colors.palette.background2,
+      borderColor: colors.palette.background2,
     },
   ] as StyleProp<ViewStyle>,
 
